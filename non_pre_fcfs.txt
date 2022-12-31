@@ -1,0 +1,45 @@
+#include <stdio.h>
+
+void swap(int *a, int *b){
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int main() {
+    int n;
+    printf("Enter the no. of processes: ");
+    scanf("%d", &n);
+
+    int p_id[n];
+    int burst_time[n];
+    int arrival_time[n];
+
+    for(int i = 0; i < n; i++){
+        printf("\nEnter the Process ID:");
+        scanf("%d", &p_id[i]);
+        printf("Enter the Burst Time:");
+        scanf("%d", &burst_time[i]);
+        printf("Enter the Arrival Time:");
+        scanf("%d", &arrival_time[i]);
+    }
+
+    for(int i = 0; i < n; i++){
+        for( int j = i + 1; j < n; j++){
+            if(arrival_time[i] > arrival_time[j]){
+                swap(&arrival_time[i], &arrival_time[j]);
+                swap(&burst_time[i], &burst_time[j]);
+                swap(&p_id[i], &p_id[j]);
+            }
+        }
+    }
+    int t = 0;
+    printf("\nTHE PROCESSES ARE EXECUTED IN THE ORDER:\n");
+    for(int i = 0; i < n; i++){
+        if(i == 0)
+            printf("P%d ---> %d - %d\n", p_id[i], t, t + burst_time[i]);
+        else
+            printf("P%d ---> %d - %d\n", p_id[i], t + 1, t + burst_time[i]);
+        t += burst_time[i];
+    }
+}
